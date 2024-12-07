@@ -20,7 +20,7 @@ body {
 
 /* Text Content */
 .text-content {
-  overflow-y: scroll;
+  overflow-y: auto;
   max-height: 150px;
   margin-bottom: 20px;
   line-height: 1.5;
@@ -67,65 +67,61 @@ body {
 .orangered {
   background-color: orangered;
 }
-/* Deleting deleteBtn */
-.deleteBtn {
-  width: 150px;
-  height: 50px;
+
+/* Edit Button */
+.editBtn {
+  width: 100px;
+  height: 40px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  background: red;
+  justify-content: center;
+  background: #4caf50;
   border: none;
   border-radius: 5px;
   box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-  background: #e62222;
+  transition: background 200ms;
+  font-size: 0.9rem;
 }
 
-.deleteBtn,
-.deleteBtn span {
-  transition: 200ms;
+.editBtn:hover {
+  background: #45a049;
 }
 
-.deleteBtn .text {
-  transform: translateX(35px);
+.editBtn:focus {
+  outline: none;
+}
+
+.editBtn .text {
   color: white;
   font-weight: bold;
 }
 
-.deleteBtn .icon {
-  position: absolute;
-  border-left: 1px solid #c41b1b;
-  transform: translateX(110px);
+/* Delete Button */
+.deleteBtn {
+  width: 100px;
   height: 40px;
-  width: 40px;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.deleteBtn svg {
-  width: 15px;
-  fill: #eee;
+  background: #e62222;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  transition: background 200ms;
+  font-size: 0.9rem;
 }
 
 .deleteBtn:hover {
   background: #ff3636;
 }
 
-.deleteBtn:hover .text {
-  color: transparent;
-}
-
-.deleteBtn:hover .icon {
-  width: 150px;
-  border-left: none;
-  transform: translateX(0);
-}
-
 .deleteBtn:focus {
   outline: none;
 }
 
-.deleteBtn:active .icon svg {
-  transform: scale(0.8);
+.deleteBtn .textD {
+  color: white;
+  font-weight: bold;
 }
