@@ -1,0 +1,29 @@
+body{
+    padding: 0;
+    margin: 0;
+}
+header{
+    height: 8vh;
+    background-color: #e2e2e2;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 20px;
+}
+
+.right{
+    width: 35%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.search{
+    background-color: white;
+    width: 17vw;
+    height: 50%;
+    border-radius: 15px;
+    padding: 2px;
+    border: wheat;
+}
