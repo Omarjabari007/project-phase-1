@@ -27,3 +27,20 @@ header{
     padding: 2px;
     border: wheat;
 }
+
+.btns{
+    height: 100%;
+    display: flex;
+    align-items: center;
+    width: 50%;
+}
+
+.Archived{
+    background-color: #db9494;
+    color: wheat;
+    height: 70%;
+    margin: 10px;
+    width: 70%;
+    border: white;
+    border-radius: 15px;
+}
