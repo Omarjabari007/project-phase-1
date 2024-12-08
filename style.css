@@ -1,115 +1,222 @@
-body{
-    padding: 0;
-    margin: 0;
+/* General Styling */
+body {
+  padding: 0;
+  margin: 0;
 }
 
-.header{
-    height: 50px;
-    width: 100%;
-    box-sizing: border-box;
-    background-color: #e2e2e2;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding-right: 5px; 
+.header {
+  height: 50px;
+  width: 100%;
+  box-sizing: border-box;
+  background-color: #e2e2e2;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding-right: 5px; 
 }
 
-.right{
-    width: 40%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding-right: 5px;
+.right {
+  width: 40%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-right: 5px;
 }
 
-.nav{
-    width: 60%;
-    height: 100%;
-    margin-left:10px; 
-    
+.nav {
+  width: 60%;
+  height: 100%;
+  margin-left: 10px;
 }
 
-.nav .UnOrderdBoardList{
-    margin-top: 0;
-    display: flex;
-    column-gap: 5px;
-    flex-direction: row;
-    align-items: flex-end;
-    height: 90%;
-    width: 95%;
+.nav .UnOrderdBoardList {
+  margin-top: 0;
+  display: flex;
+  column-gap: 5px;
+  flex-direction: row;
+  align-items: flex-end;
+  height: 90%;
+  width: 95%;
 }
 
 .nav .UnOrderdBoardList .BoardList  {
-    list-style: none;
-
-    /* height: 100%; */
-    /* width: fit-content; */
-    
-
+  list-style: none;
 }
 
-nav ul li a{
-    text-decoration: none;
-    width: 75px;
-    height: 100%;
-    padding: 10px;
-    border-top-right-radius:10px ;
-    border-top-left-radius:10px ;
-    background-color: white;
-    color: black;
-
+nav ul li a {
+  text-decoration: none;
+  width: 75px;
+  height: 100%;
+  padding: 10px;
+  border-top-right-radius: 10px;
+  border-top-left-radius: 10px;
+  background-color: white;
+  color: black;
 }
 
-.search{
-    background-color: white;
-    width: 50%;
-    height: 55%;
-    border-radius: 15px;
-    
-    border: wheat;
-    margin-right: 15px;
+.search {
+  background-color: white;
+  width: 50%;
+  height: 55%;
+  border-radius: 15px;
+  border: wheat;
+  margin-right: 15px;
 }
 
-.btns{
-    height: 100%;
-    display: flex;
-    align-items: center;
-    width: 50%;
+.btns {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  width: 50%;
 }
 
-.Archived{
-    background-color: #db9494;
-    color: wheat;
-    height: 60%;
-    margin: 10px;
-    width: 80%;
-    border: white;
-    border-radius: 15px;
-    cursor: pointer;
-    /* text-align: center; */
-
-    
+.Archived {
+  background-color: #db9494;
+  color: wheat;
+  height: 60%;
+  margin: 10px;
+  width: 80%;
+  border: white;
+  border-radius: 15px;
+  cursor: pointer;
 }
 
-.newBoard{
-    background-color: #2b7787;
-    color: wheat;
-    height: 55%;
-    margin: 10px;
-    width: 80%;
-    border: white;
-    border-radius: 15px;
-    cursor: pointer;
+.newBoard {
+  background-color: #2b7787;
+  color: wheat;
+  height: 55%;
+  margin: 10px;
+  width: 80%;
+  border: white;
+  border-radius: 15px;
+  cursor: pointer;
 }
 
-.add{
-    width: 40px;
-    height: 30px;
-    border-radius: 50%;
-    background-color: #6bb166;
-    color: white;
-    border: wheat;
-    cursor: pointer;
+.add {
+  width: 40px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #6bb166;
+  color: white;
+  border: wheat;
+  cursor: pointer;
+}
+
+/* Card Styling */
+.card {
+  border: 2px solid #ccc;
+  border-radius: 20px;
+  width: 500px;
+  padding: 20px;
+  background-color: white;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.text-content {
+  overflow-y: auto;
+  max-height: 150px;
+  margin-bottom: 20px;
+  line-height: 1.5;
+}
+
+/* Color Styling */
+.colors {
+  display: flex;
+  justify-content: space-between;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.color {
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.color:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.red {
+  background-color: red;
+}
+
+.green {
+  background-color: green;
+}
+
+.yellow {
+  background-color: yellow;
+}
+
+.blue {
+  background-color: blue;
+}
+
+.orangered {
+  background-color: orangered;
+}
+
+/* Edit Button */
+.editBtn {
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #4caf50;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  transition: background 200ms;
+  font-size: 0.9rem;
+}
+
+.editBtn:hover {
+  background: #45a049;
+}
+
+.editBtn:focus {
+  outline: none;
+}
+
+.editBtn .text {
+  color: white;
+  font-weight: bold;
+}
+
+/* Delete Button */
+.deleteBtn {
+  width: 100px;
+  height: 40px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e62222;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
+  transition: background 200ms;
+  font-size: 0.9rem;
+}
+
+.deleteBtn:hover {
+  background: #ff3636;
+}
+
+.deleteBtn:focus {
+  outline: none;
+}
+
+.deleteBtn .textD {
+  color: white;
+  font-weight: bold;
 }
