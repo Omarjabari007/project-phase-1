@@ -81,5 +81,3 @@ container.addEventListener("click", (event) => {
     });
   }
 });
-
-

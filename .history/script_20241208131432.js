@@ -82,4 +82,46 @@ container.addEventListener("click", (event) => {
   }
 });
 
+addBtn.addEventListener("click",()=>{
+  const newCard = document.createElement("div");
+  newCard.classList.add("card");
+  newCard.innerHTML = `
+    <p class="text-content">
+      This is a new card. You can edit or style this text.
+    </p>
+    <ul class="colors">
+      <li class="color red" data-color="red"></li>
+      <li class="color green" data-color="green"></li>
+      <li class="color yellow" data-color="yellow"></li>
+      <li class="color blue" data-color="blue"></li>
+      <li class="color orangered" data-color="orangered"></li>
+      <li>
+        <button class="editBtn noselect">
+          <span class="text">Edit</span>
+        </button>
+      </li>
+      <li>
+        <button class="deleteBtn noselect">
+          <span class="textD">Delete</span>
+        </button>
+      </li>
+    </ul>
+  `;
+  printDate(newCard);
+  container.appendChild(newCard);
+})
 
+const search = (event) => {
+    const term = event.target.value.toLowerCase();
+    const cards = document.querySelectorAll('.card'); // Select all cards
+
+    cards.forEach(card => {
+        const cardText = card.querySelector('.text-content').textContent.toLowerCase();
+
+        if (cardText.includes(term)) {
+            card.style.display = ''; // Show card
+        } else {
+            card.style.display = 'none'; // Hide card
+        }
+    });
+};

@@ -82,4 +82,8 @@ container.addEventListener("click", (event) => {
   }
 });
 
-
+addBtn.addEventListener("click",()=>{
+  const newCard = document.createElement("div");
+  newCard.classList.add("card");
+  
+})

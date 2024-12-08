@@ -4,7 +4,6 @@ const card = document.querySelector(".card");
 const colorBtn = document.querySelector(".colors");
 const dateAdd = document.querySelectorAll(".date");
 const container = document.querySelector(".container");
-const addBtn = document.getElementById("addBtn");
 // Changing Card Colors diligation
 colorBtn.addEventListener("click", (e) => {
   if (e.target.classList.contains("color")) {
@@ -81,5 +80,3 @@ container.addEventListener("click", (event) => {
     });
   }
 });
-
-
