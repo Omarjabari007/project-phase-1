@@ -1,13 +1,13 @@
 const editButtons = document.querySelectorAll(".editBtn");
 const textContent = document.querySelector(".text-content");
-const card = document.querySelector(".card");
-const colorBtn = document.querySelector(".colors");
 const dateAdd = document.querySelectorAll(".date");
 const container = document.querySelector(".container");
 // Changing Card Colors diligation
-colorBtn.addEventListener("click", (e) => {
+container.addEventListener("click", (e) => {
+  // Check if the clicked element has the "color" class
   if (e.target.classList.contains("color")) {
     const selectedColor = e.target.getAttribute("data-color");
+    const card = e.target.closest(".card");
     card.style.backgroundColor = selectedColor;
     card.style.borderColor = selectedColor;
     card.style.boxShadow = `0 0 10px ${selectedColor}`;
