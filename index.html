@@ -7,6 +7,25 @@
     <title>Card</title>
   </head>
   <body>
+    <!-- Header Section (from dev branch) -->
+    <header class="header">
+      <nav class="nav">
+        <ul class="UnOrderdBoardList">
+          <li class="BoardList"><a href="">Board 1</a></li>
+          <li class="BoardList"><a href="">Board 2</a></li>
+        </ul>
+      </nav>  
+      <div class="right" id="right">
+        <input type="text" placeholder="   &#x1F50D;search a note" id="search" class="search" />
+        <div class="btns"> 
+          <button class="Archived"><span style="color: black;"> 🗑</span>Archived </button> 
+          <button class="newBoard">New Board</button>
+          <button class="add">+</button>
+        </div>
+      </div>
+    </header>
+
+    <!-- Card Section (from SCRUM-9 branch) -->
     <div class="container">
       <div class="card">
         <p class="text-content">
@@ -55,6 +74,7 @@
         </ul>
       </div>
     </div>
+
     <script src="script.js"></script>
   </body>
 </html>
