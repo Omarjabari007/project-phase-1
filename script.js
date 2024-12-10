@@ -97,17 +97,24 @@ addBtn.addEventListener("click",()=>{
       <li class="color blue" data-color="blue"></li>
       <li class="color orangered" data-color="orangered"></li>
       <li>
-        <button class="editBtn noselect">
+        <button class="editBtn ">
           <span class="text">Edit</span>
         </button>
       </li>
       <li>
-        <button class="deleteBtn noselect">
+        <button class="deleteBtn ">
           <span class="textD">Delete</span>
         </button>
       </li>
     </ul>
   `;
+  newCard.classList.add('newCard');
+  // newCard.style.left='100px';
+  let left1 = Math.random()*100;
+  newCard.style.left = left1;
+  newCard.style.top = left1;
+  console.log(left1);
+  
   printDate(newCard);
   container.appendChild(newCard);
 })
