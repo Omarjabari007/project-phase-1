@@ -4,6 +4,8 @@ const card = document.querySelector(".card");
 const colorBtn = document.querySelector(".colors");
 const dateAdd = document.querySelectorAll(".date");
 const container = document.querySelector(".container");
+const addBtn = document.getElementById("addBtn");
+
 // Changing Card Colors diligation
 colorBtn.addEventListener("click", (e) => {
   if (e.target.classList.contains("color")) {
@@ -80,3 +82,32 @@ container.addEventListener("click", (event) => {
     });
   }
 });
+//Adding the Button for cards
+addBtn.addEventListener("click",()=>{
+  const newCard = document.createElement("div");
+  newCard.classList.add("card");
+  newCard.innerHTML = `
+    <p class="text-content">
+      This is a new card. You can edit or style this text.
+    </p>
+    <ul class="colors">
+      <li class="color red" data-color="red"></li>
+      <li class="color green" data-color="green"></li>
+      <li class="color yellow" data-color="yellow"></li>
+      <li class="color blue" data-color="blue"></li>
+      <li class="color orangered" data-color="orangered"></li>
+      <li>
+        <button class="editBtn noselect">
+          <span class="text">Edit</span>
+        </button>
+      </li>
+      <li>
+        <button class="deleteBtn noselect">
+          <span class="textD">Delete</span>
+        </button>
+      </li>
+    </ul>
+  `;
+  printDate(newCard);
+  container.appendChild(newCard);
+})
