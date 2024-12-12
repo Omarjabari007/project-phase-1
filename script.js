@@ -5,6 +5,8 @@ const colorBtn = document.querySelector(".colors");
 const dateAdd = document.querySelectorAll(".date");
 const container = document.querySelector(".container");
 const addBtn = document.getElementById("addBtn");
+const textedit = document.querySelector('text-content');
+const searchInput = document.getElementById("search");
 
 // Changing Card Colors diligation
 colorBtn.addEventListener("click", (e) => {
@@ -43,7 +45,11 @@ const printDate = (cardElement) => {
 document.querySelectorAll(".card").forEach((card) => {
   printDate(card);
 });
+
+
 // Editing Card
+
+
 
 container.addEventListener("click", (event) => {
   if (event.target.closest(".editBtn")) {
@@ -118,3 +124,16 @@ addBtn.addEventListener("click",()=>{
   printDate(newCard);
   container.appendChild(newCard);
 })
+searchInput.addEventListener("input", (event) => {
+  const term = event.target.value.toLowerCase();  // Get the search term
+  const cards = document.querySelectorAll('.card');  // Select all cards
+
+  cards.forEach(card => {
+    const cardText = card.querySelector('.text-content').textContent.toLowerCase(); 
+    if (cardText.includes(term)) {
+      card.style.display = ''; 
+    } else {
+      card.style.display = 'none';  
+    }
+  });
+}); 
