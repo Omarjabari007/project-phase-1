@@ -13,7 +13,7 @@ body {
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  padding-right: 5px; 
+  padding-right: 5px;
 }
 
 .right {
@@ -41,7 +41,7 @@ body {
   width: 95%;
 }
 
-.nav .UnOrderdBoardList .BoardList  {
+.nav .UnOrderdBoardList .BoardList {
   list-style: none;
 }
 
@@ -106,130 +106,159 @@ nav ul li a {
 
 /* Card Styling */
 .card {
-  border: 2px solid #ccc;
+  flex-basis: 21%;
+  border: 2px solid #ddd;
   border-radius: 20px;
-  width: 500px;
+  width: 300px;
+  max-width: 100%;
   padding: 20px;
-  background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #d5cccc;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s, box-shadow 0.3s;
 }
 
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Text Content Styling */
 .text-content {
   overflow-y: auto;
   max-height: 150px;
   margin-bottom: 20px;
-  line-height: 1.5;
+  line-height: 1.6;
+  font-family: "Arial", sans-serif;
+  font-size: 1rem;
+  color: #333;
 }
 
 /* Color Styling */
 .colors {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   padding: 0;
   margin: 0;
+  gap: 10px;
   list-style: none;
 }
 
 .color {
   border-radius: 50%;
-  width: 50px;
-  height: 50px;
+  width: 30px;
+  height: 30px;
   cursor: pointer;
   transition: transform 0.3s, box-shadow 0.3s;
 }
 
 .color:hover {
-  transform: scale(1.1);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  transform: scale(1.2);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
 }
 
 .red {
-  background-color: red;
+  background-color: #ff4d4d;
 }
 
 .green {
-  background-color: green;
+  background-color: #4caf50;
 }
 
 .yellow {
-  background-color: yellow;
+  background-color: #ffeb3b;
 }
 
 .blue {
-  background-color: blue;
+  background-color: #2196f3;
 }
 
 .orangered {
-  background-color: orangered;
+  background-color: #ff5722;
 }
 
 /* Edit Button */
 .editBtn {
-  width: 100px;
+  width: 90px;
   height: 40px;
   cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   background: #4caf50;
   border: none;
-  border-radius: 5px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-  transition: background 200ms;
-  font-size: 0.9rem;
+  border-radius: 25px;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  color: #fff;
+  font-weight: bold;
 }
 
 .editBtn:hover {
   background: #45a049;
+  transform: scale(1.05);
 }
 
 .editBtn:focus {
   outline: none;
 }
 
-.editBtn .text {
-  color: white;
+/* Delete Button */
+.deleteBtn {
+  width: 90px;
+  height: 40px;
+  cursor: pointer;
+  background: #f44336;
+  border: none;
+  border-radius: 25px;
+  box-shadow: 2px 4px 6px rgba(0, 0, 0, 0.15);
+  transition: all 0.3s ease;
+  font-size: 1rem;
+  color: #fff;
   font-weight: bold;
 }
 
-/* Delete Button */
-.deleteBtn {
-  width: 100px;
-  height: 40px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #e62222;
-  border: none;
-  border-radius: 5px;
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.15);
-  transition: background 200ms;
-  font-size: 0.9rem;
-}
-
 .deleteBtn:hover {
-  background: #ff3636;
+  background: #e53935;
+  transform: scale(1.05);
 }
 
 .deleteBtn:focus {
   outline: none;
 }
 
-.deleteBtn .textD {
-  color: white;
-  font-weight: bold;
-}
-
-.newCard{
-  position: relative;
-
-}
-
-.container{
+/* Card Container */
+.container {
   display: flex;
   flex-wrap: wrap;
-  row-gap: 15px;
-  column-gap: 15px;
-  justify-content: flex-start;
+  gap: 20px;
+  padding: 10px;
+}
+
+/* Button Container */
+.edBtns {
+  display: flex;
+  margin-top: 15px;
+  gap: 15px;
+  justify-content: center;
+}
+
+/*js */
+.date {
+  font-size: 0.85rem;
+  color: gray;
+  font-style: italic;
+  text-align: right;
+}
+.saveBtn {
+  display: block;
+  margin: 10px auto;
+  padding: 10px 20px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.textArea {
+  width: 100%;
+  height: 100px;
+  margin-bottom: 20px;
 }
