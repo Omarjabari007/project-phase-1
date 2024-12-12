@@ -5,7 +5,7 @@ const colorBtn = document.querySelector(".colors");
 const dateAdd = document.querySelectorAll(".date");
 const container = document.querySelector(".container");
 const addBtn = document.getElementById("addBtn");
-
+const textedit = document.querySelector('text-content');
 // Changing Card Colors diligation
 colorBtn.addEventListener("click", (e) => {
   if (e.target.classList.contains("color")) {
@@ -43,7 +43,11 @@ const printDate = (cardElement) => {
 document.querySelectorAll(".card").forEach((card) => {
   printDate(card);
 });
+
+
 // Editing Card
+
+
 
 container.addEventListener("click", (event) => {
   if (event.target.closest(".editBtn")) {
