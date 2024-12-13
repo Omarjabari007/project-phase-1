@@ -1,6 +1,11 @@
 const container = document.querySelector(".container");
 const addBtn = document.getElementById("addBtn");
 const searchInput = document.getElementById("search");
+const addBoard = document.getElementById('newBoard');
+const boardContainer = document.getElementById('addBoard');
+let count = 0;
+let activeBoard = null;
+const boards = [];
 
 // Event Delegation for Card Actions
 container.addEventListener("click", (event) => {
@@ -34,6 +39,16 @@ function changeCardColor(colorElement) {
 // Function to Delete Card
 function deleteCard(deleteButton) {
   const cardToDelete = deleteButton.closest(".card");
+  const board = boards.find(b => b.id === activeBoard);
+  if (board) {
+    // Remove the card from the board's cards array before deleting it
+    const cardIndex = board.cards.indexOf(cardToDelete);
+    console.log(cardToDelete);
+    
+    if (cardIndex !== -1) {
+      board.cards.splice(cardIndex, 1);
+    }
+  }
   if (cardToDelete) {
     cardToDelete.remove();
   }
@@ -88,6 +103,11 @@ document.querySelectorAll(".card").forEach((card) => {
 
 //Adding the Button for cards
 addBtn.addEventListener("click", () => {
+  if (!activeBoard) {
+    alert("Please select a board first.");
+    return;
+  }
+
   const newCard = document.createElement("div");
   newCard.classList.add("card");
   newCard.innerHTML = `
@@ -114,10 +134,9 @@ addBtn.addEventListener("click", () => {
   `;
   newCard.classList.add("newCard");
   // newCard.style.left='100px';
-  let left1 = Math.random() * 100;
-  newCard.style.left = left1;
-  newCard.style.top = left1;
-  console.log(left1);
+  const activeBoardObj = boards.find(board => board.id === activeBoard);
+  activeBoardObj.cards.push(newCard);
+  
 
   printDate(newCard);
   container.appendChild(newCard);
@@ -136,3 +155,65 @@ searchInput.addEventListener("input", (event) => {
     }
   });
 });
+
+addBoard.addEventListener('click',()=>{
+  count++;
+  const boardId = `board-${count}`;
+  activeBoard = boardId;
+  const newBoard = {
+    id: boardId,
+    active: false,
+    cards: [] 
+  };
+  boards.push(newBoard);
+
+  let content = document.createElement('li');
+  content.className = "BoardList";
+  // content.id= `board-${count}`;
+
+  let span = document.createElement('span');
+  // span.className = 'BoardList';
+  span.id = boardId;
+  span.textContent = `Board ${count}`;
+  content.appendChild(span);
+
+  content.addEventListener('click', (e) => {
+    // content.classList.add('active');
+    e.preventDefault();
+    switchBoard(boardId);
+  });
+
+  boardContainer.appendChild(content);
+  switchBoard(boardId);
+
+});
+
+const switchBoard = (boardId) => {
+  const board = boards.find(b => b.id === boardId);
+
+  if (board) {
+    board.active = true;
+    container.innerHTML = '';  
+    // console.log(board);
+    // console.log(boards);
+    
+    
+    board.cards.forEach(card => {
+      container.appendChild(card);
+    });
+    boards.forEach(b => {
+      if (b.id !== boardId) {
+        b.active = false;
+        let newId = document.getElementById(`${b.id}`)
+        newId.classList.remove('active');
+      }
+      
+    });
+    const boardIds = document.getElementById(`${boardId}`)
+    // console.log(boardIds);
+    
+    boardIds.classList.add('active');
+    // boardIds.style.backgroundColor = 'red' ;
+    // console.log(`Switched to board: ${boardId}`);
+  }
+};
