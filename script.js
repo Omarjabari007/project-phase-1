@@ -1,6 +1,11 @@
 const container = document.querySelector(".container");
 const addBtn = document.getElementById("addBtn");
 const searchInput = document.getElementById("search");
+const addBoard = document.getElementById('newBoard');
+const boardContainer = document.getElementById('addBoard');
+let count = 0;
+let activeBoard = null;
+const boards = [];
 
 // Event Delegation for Card Actions
 container.addEventListener("click", (event) => {
@@ -14,6 +19,8 @@ container.addEventListener("click", (event) => {
   // Delete Card
   if (target.classList.contains("deleteBtn")) {
     deleteCard(target);
+    console.log(target);
+    
   }
 
   // Edit Card
@@ -34,9 +41,21 @@ function changeCardColor(colorElement) {
 // Function to Delete Card
 function deleteCard(deleteButton) {
   const cardToDelete = deleteButton.closest(".card");
-  if (cardToDelete) {
-    cardToDelete.remove();
+  if (!cardToDelete) {
+    alert("Card not found for deletion");
+    return;
   }
+  const board = boards.find(b => b.id === activeBoard);
+  if (board) {
+    const cardIndex = board.cards.findIndex(card => card === cardToDelete);
+    console.log(cardToDelete);
+    
+    if (cardIndex !== -1) {
+      board.cards.splice(cardIndex, 1);
+    
+    }
+  }
+  cardToDelete.remove();
 }
 
 // Function to Edit Card
@@ -88,40 +107,39 @@ document.querySelectorAll(".card").forEach((card) => {
 
 //Adding the Button for cards
 addBtn.addEventListener("click", () => {
+  if (!activeBoard) {
+    alert("Please select a board first.");
+    return;
+  }
+
   const newCard = document.createElement("div");
   newCard.classList.add("card");
   newCard.innerHTML = `
-    <p class="text-content">
-      This is a new card. You can edit or style this text.
-    </p>
-    <ul class="colors">
-      <li class="color red" data-color="red"></li>
-      <li class="color green" data-color="green"></li>
-      <li class="color yellow" data-color="yellow"></li>
-      <li class="color blue" data-color="blue"></li>
-      <li class="color orangered" data-color="orangered"></li>
-      <li>
-        <button class="editBtn ">
-          <span class="text">Edit</span>
-        </button>
-      </li>
-      <li>
-        <button class="deleteBtn ">
-          <span class="textD">Delete</span>
-        </button>
-      </li>
-    </ul>
+   <p class="text-content">
+          This is a sample card. You can edit or style this text.
+        </p>
+        <ul class="colors">
+          <li class="color red" data-color="#FBCEB1     "></li>
+          <li class="color green" data-color="#ACE1AF        "></li>
+          <li class="color yellow" data-color="#c5c800          "></li>
+          <li class="color blue" data-color="#7CB9E8         "></li>
+          <li class="color orangered" data-color="#FFB000"></li>
+        </ul>
+        <div class="edBtns">
+          <button class="editBtn">Edit</button>
+          <button class="deleteBtn">Delete</button>
+        </div>
   `;
   newCard.classList.add("newCard");
   // newCard.style.left='100px';
-  let left1 = Math.random() * 100;
-  newCard.style.left = left1;
-  newCard.style.top = left1;
-  console.log(left1);
+  const activeBoardObj = boards.find(board => board.id === activeBoard);
+  activeBoardObj.cards.push(newCard);
+  
 
   printDate(newCard);
   container.appendChild(newCard);
 });
+
 searchInput.addEventListener("input", (event) => {
   const term = event.target.value.toLowerCase(); // Get the search term
   const cards = document.querySelectorAll(".card"); // Select all cards
@@ -136,3 +154,50 @@ searchInput.addEventListener("input", (event) => {
     }
   });
 });
+
+//the listener for add board button
+
+addBoard.addEventListener('click',()=>{
+  count++;
+  const boardId = `board ${count}`;
+  activeBoard = boardId;
+  const newBoard = {
+    id: boardId,
+    active: false,
+    cards: [] 
+  };
+  boards.push(newBoard);
+
+  const boardElement = document.createElement("li");
+  boardElement.classList.add("BoardList");
+  boardElement.innerHTML = `<span>${boardId}</span>`;
+  boardElement.addEventListener('click', () => {
+    setActiveBoard(boardId, boardElement);
+  });
+
+  boardContainer.appendChild(boardElement);
+
+  // if it new board set it as active board
+  setActiveBoard(boardId, boardElement);
+});
+
+function setActiveBoard(boardId, boardElement) {
+  activeBoard = boardId;
+
+  // To remove the active class from all the board
+  document.querySelectorAll('.BoardList span').forEach(span => {
+    span.classList.remove('active');
+  });
+
+  // to change the background color of the active board 
+  boardElement.querySelector('span').classList.add('active');
+
+  //this clear the container and then add the card for the selected board  
+  container.innerHTML = '';
+  const activeBoardObj = boards.find(board => board.id === boardId);
+  if (activeBoardObj) {
+    activeBoardObj.cards.forEach(card => {
+      container.appendChild(card);
+    });
+  }
+}
