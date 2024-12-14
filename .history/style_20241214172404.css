@@ -271,11 +271,3 @@ nav ul li span {
   color: blue;
 }
 
-.archived-cards {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  /* Same gap as .container */
-  padding: 10px;
-  /* Optional padding */
-}

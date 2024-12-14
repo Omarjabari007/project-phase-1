@@ -201,7 +201,7 @@ function setActiveBoard(boardId, boardElement) {
     });
   }
 }
-const archiveButton = document.querySelector(".Archived"); 
+const archiveButton = document.querySelector(".Archived");
 const navList = document.querySelector(".UnOrderdBoardList");
 let archiveTabCreated = false; // To ensure we don't create duplicate tabs
 
@@ -209,8 +209,8 @@ archiveButton.addEventListener("click", () => {
   if (!archiveTabCreated) {
     // Create the Archive Tab
     const archiveTab = document.createElement("li");
-    archiveTab.classList.add("BoardList"); // Same class as other boards
-    archiveTab.innerHTML = `<span>Archive</span>`; // Use a span for consistent styling
+    archiveTab.classList.add("BoardList");
+    archiveTab.innerHTML = `<a href="#archiveSection">Archive</a>`;
     navList.appendChild(archiveTab);
 
     // Create the Archive Section
@@ -227,26 +227,19 @@ archiveButton.addEventListener("click", () => {
 
     // Add click event to show the archive section when the tab is clicked
     archiveTab.addEventListener("click", () => {
-      // Only toggle visibility for sections you want to manage
-      const sections = [document.querySelector(".container"), archiveSection];
-      
-      sections.forEach((section) => {
-        if (section === archiveSection) {
-          section.style.display = "block"; // Show the archive section
-        } else {
-          section.style.display = "none"; // Hide other sections 
-        }
-      });
-
-      // Highlight the active tab
-      document.querySelectorAll('.BoardList span').forEach(span => {
-        span.classList.remove('active');
-      });
-      archiveTab.querySelector('span').classList.add('active');
-    });
+  // Only toggle visibility for sections you want to manage
+  const sections = [document.querySelector(".container"), archiveSection];
+  
+  sections.forEach((section) => {
+    if (section === archiveSection) {
+      section.style.display = "block"; // Show the archive section
+    } else {
+      section.style.display = "none"; // Hide other sections 
+    }
+  });
+});
   }
 });
-
 
 
 container.addEventListener("click", (e) => {
@@ -260,10 +253,12 @@ container.addEventListener("click", (e) => {
       const archiveSection = document.querySelector(".archived-cards");
       archiveSection.appendChild(cardToArchive);
 
-      // Optional: Adjust the card styling for archived state
+      // Optional: Disable interactions in the archived cards
       cardToArchive.style.opacity = "0.7";
-      cardToArchive.style.pointerEvents = "none"; // Disable interactions for archived cards
+      cardToArchive.style.pointerEvents = "none";
+
+      // Show archive section if accessed through the tab
+      archiveContainer.style.display = "block";
     }
   }
 });
-

@@ -201,69 +201,31 @@ function setActiveBoard(boardId, boardElement) {
     });
   }
 }
-const archiveButton = document.querySelector(".Archived"); 
+// Initialize Archive Button and Navigation List
+const archiveButton = document.querySelector(".Archived");
 const navList = document.querySelector(".UnOrderdBoardList");
-let archiveTabCreated = false; // To ensure we don't create duplicate tabs
+let archiveTabCreated = false;
 
+// Create Archive Tab and Section
 archiveButton.addEventListener("click", () => {
   if (!archiveTabCreated) {
-    // Create the Archive Tab
-    const archiveTab = document.createElement("li");
-    archiveTab.classList.add("BoardList"); // Same class as other boards
-    archiveTab.innerHTML = `<span>Archive</span>`; // Use a span for consistent styling
-    navList.appendChild(archiveTab);
-
-    // Create the Archive Section
-    const archiveSection = document.createElement("div");
-    archiveSection.id = "archiveSection";
-    archiveSection.style.display = "none"; // Initially hidden
-    archiveSection.innerHTML = `
-      <h2>Archived Notes</h2>
-      <div class="archived-cards"></div>
-    `;
-    document.body.appendChild(archiveSection);
-
+    createArchiveTab();
     archiveTabCreated = true;
-
-    // Add click event to show the archive section when the tab is clicked
-    archiveTab.addEventListener("click", () => {
-      // Only toggle visibility for sections you want to manage
-      const sections = [document.querySelector(".container"), archiveSection];
-      
-      sections.forEach((section) => {
-        if (section === archiveSection) {
-          section.style.display = "block"; // Show the archive section
-        } else {
-          section.style.display = "none"; // Hide other sections 
-        }
-      });
-
-      // Highlight the active tab
-      document.querySelectorAll('.BoardList span').forEach(span => {
-        span.classList.remove('active');
-      });
-      archiveTab.querySelector('span').classList.add('active');
-    });
   }
 });
 
+function createArchiveTab() {
+  // Create Archive Tab in Navigation
+  const archiveTab = document.createElement("li");
+  archiveTab.classList.add("BoardList");
+  archiveTab.innerHTML = `<a href="#archiveSection">Archive</a>`;
+  navList.appendChild(archiveTab);
 
-
-container.addEventListener("click", (e) => {
-  if (
-    e.target.classList.contains("deleteBtn") ||
-    e.target.classList.contains("textD")
-  ) {
-    const cardToArchive = e.target.closest(".card");
-    if (cardToArchive) {
-      // Move the card to the archive section
-      const archiveSection = document.querySelector(".archived-cards");
-      archiveSection.appendChild(cardToArchive);
-
-      // Optional: Adjust the card styling for archived state
-      cardToArchive.style.opacity = "0.7";
-      cardToArchive.style.pointerEvents = "none"; // Disable interactions for archived cards
-    }
-  }
-});
-
+  // Create Archive Section
+  const archiveSection = document.createElement("div");
+  archiveSection.id = "archiveSection";
+  archiveSection.style.display = "none";
+  archiveSection.innerHTML = `
+    <h2>Archived Notes</h2>
+    <div class="archived-cards"></div>
+  `;

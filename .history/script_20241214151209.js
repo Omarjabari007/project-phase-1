@@ -201,7 +201,7 @@ function setActiveBoard(boardId, boardElement) {
     });
   }
 }
-const archiveButton = document.querySelector(".Archived"); 
+const archiveButton = document.querySelector(".Archived");
 const navList = document.querySelector(".UnOrderdBoardList");
 let archiveTabCreated = false; // To ensure we don't create duplicate tabs
 

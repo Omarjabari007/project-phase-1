@@ -201,54 +201,40 @@ function setActiveBoard(boardId, boardElement) {
     });
   }
 }
-const archiveButton = document.querySelector(".Archived"); 
-const navList = document.querySelector(".UnOrderdBoardList");
-let archiveTabCreated = false; // To ensure we don't create duplicate tabs
+function saveToStorage() {
+  localStorage.setItem("boards", JSON.stringify(boards));
+  localStorage.setItem("activeBoard", activeBoard);
+}
 
-archiveButton.addEventListener("click", () => {
-  if (!archiveTabCreated) {
-    // Create the Archive Tab
-    const archiveTab = document.createElement("li");
-    archiveTab.classList.add("BoardList"); // Same class as other boards
-    archiveTab.innerHTML = `<span>Archive</span>`; // Use a span for consistent styling
-    navList.appendChild(archiveTab);
+function loadFromStorage() {
+  const savedBoards = JSON.parse(localStorage.getItem("boards"));
+  const savedActiveBoard = localStorage.getItem("activeBoard");
 
-    // Create the Archive Section
-    const archiveSection = document.createElement("div");
-    archiveSection.id = "archiveSection";
-    archiveSection.style.display = "none"; // Initially hidden
-    archiveSection.innerHTML = `
-      <h2>Archived Notes</h2>
-      <div class="archived-cards"></div>
-    `;
-    document.body.appendChild(archiveSection);
-
-    archiveTabCreated = true;
-
-    // Add click event to show the archive section when the tab is clicked
-    archiveTab.addEventListener("click", () => {
-      // Only toggle visibility for sections you want to manage
-      const sections = [document.querySelector(".container"), archiveSection];
-      
-      sections.forEach((section) => {
-        if (section === archiveSection) {
-          section.style.display = "block"; // Show the archive section
-        } else {
-          section.style.display = "none"; // Hide other sections 
-        }
+  if (savedBoards) {
+    boards.splice(0, boards.length, ...savedBoards);
+    boards.forEach((board) => {
+      board.cards = board.cards.map((cardHTML) => {
+        const tempDiv = document.createElement("div");
+        tempDiv.innerHTML = cardHTML;
+        return tempDiv.firstChild;
       });
-
-      // Highlight the active tab
-      document.querySelectorAll('.BoardList span').forEach(span => {
-        span.classList.remove('active');
-      });
-      archiveTab.querySelector('span').classList.add('active');
     });
   }
-});
 
+  if (savedActiveBoard) {
+    activeBoard = savedActiveBoard;
+  }
+}
 
+// Load saved state on page load
+loadFromStorage();
 
+if (boards.length > 0) {
+  const activeBoardObj = boards.find((board) => board.id === activeBoard);
+  if (activeBoardObj) {
+    setActiveBoard(activeBoard, document.querySelector(`.BoardList span:contains(${activeBoard})`));
+  }
+}
 container.addEventListener("click", (e) => {
   if (
     e.target.classList.contains("deleteBtn") ||
@@ -256,14 +242,45 @@ container.addEventListener("click", (e) => {
   ) {
     const cardToArchive = e.target.closest(".card");
     if (cardToArchive) {
-      // Move the card to the archive section
+      const activeBoardObj = boards.find((b) => b.id === activeBoard);
+      if (activeBoardObj) {
+        // Remove the card from the current board
+        activeBoardObj.cards = activeBoardObj.cards.filter((card) => card !== cardToArchive);
+      }
+
+      // Move the card to the archive
       const archiveSection = document.querySelector(".archived-cards");
       archiveSection.appendChild(cardToArchive);
 
-      // Optional: Adjust the card styling for archived state
+      // Mark the card as archived (optional UI feedback)
       cardToArchive.style.opacity = "0.7";
-      cardToArchive.style.pointerEvents = "none"; // Disable interactions for archived cards
+      cardToArchive.style.pointerEvents = "none";
+
+      updateState();
     }
   }
 });
 
+// Restore cards when switching back to a board
+function setActiveBoard(boardId, boardElement) {
+  activeBoard = boardId;
+
+  // Remove the active class from all board spans
+  document.querySelectorAll('.BoardList span').forEach(span => {
+    span.classList.remove('active');
+  });
+
+  // Highlight the active board
+  boardElement.querySelector('span').classList.add('active');
+
+  // Clear and repopulate the container with cards for the selected board
+  container.innerHTML = '';
+  const activeBoardObj = boards.find(board => board.id === boardId);
+  if (activeBoardObj) {
+    activeBoardObj.cards.forEach(card => {
+      container.appendChild(card);
+    });
+  }
+
+  updateState();
+}
