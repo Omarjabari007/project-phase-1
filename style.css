@@ -266,7 +266,8 @@ nav ul li span {
 
 .active{
   background-color: #d2d2d2;
-
+  font-weight: bold;
   cursor: pointer;
+  color: blue;
 
 }

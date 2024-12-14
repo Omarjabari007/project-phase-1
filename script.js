@@ -19,6 +19,8 @@ container.addEventListener("click", (event) => {
   // Delete Card
   if (target.classList.contains("deleteBtn")) {
     deleteCard(target);
+    console.log(target);
+    
   }
 
   // Edit Card
@@ -39,19 +41,21 @@ function changeCardColor(colorElement) {
 // Function to Delete Card
 function deleteCard(deleteButton) {
   const cardToDelete = deleteButton.closest(".card");
+  if (!cardToDelete) {
+    alert("Card not found for deletion");
+    return;
+  }
   const board = boards.find(b => b.id === activeBoard);
   if (board) {
-    // Remove the card from the board's cards array before deleting it
-    const cardIndex = board.cards.indexOf(cardToDelete);
+    const cardIndex = board.cards.findIndex(card => card === cardToDelete);
     console.log(cardToDelete);
     
     if (cardIndex !== -1) {
       board.cards.splice(cardIndex, 1);
+    
     }
   }
-  if (cardToDelete) {
-    cardToDelete.remove();
-  }
+  cardToDelete.remove();
 }
 
 // Function to Edit Card
@@ -111,26 +115,20 @@ addBtn.addEventListener("click", () => {
   const newCard = document.createElement("div");
   newCard.classList.add("card");
   newCard.innerHTML = `
-    <p class="text-content">
-      This is a new card. You can edit or style this text.
-    </p>
-    <ul class="colors">
-      <li class="color red" data-color="red"></li>
-      <li class="color green" data-color="green"></li>
-      <li class="color yellow" data-color="yellow"></li>
-      <li class="color blue" data-color="blue"></li>
-      <li class="color orangered" data-color="orangered"></li>
-      <li>
-        <button class="editBtn ">
-          <span class="text">Edit</span>
-        </button>
-      </li>
-      <li>
-        <button class="deleteBtn ">
-          <span class="textD">Delete</span>
-        </button>
-      </li>
-    </ul>
+   <p class="text-content">
+          This is a sample card. You can edit or style this text.
+        </p>
+        <ul class="colors">
+          <li class="color red" data-color="#FBCEB1     "></li>
+          <li class="color green" data-color="#ACE1AF        "></li>
+          <li class="color yellow" data-color="#c5c800          "></li>
+          <li class="color blue" data-color="#7CB9E8         "></li>
+          <li class="color orangered" data-color="#FFB000"></li>
+        </ul>
+        <div class="edBtns">
+          <button class="editBtn">Edit</button>
+          <button class="deleteBtn">Delete</button>
+        </div>
   `;
   newCard.classList.add("newCard");
   // newCard.style.left='100px';
@@ -141,6 +139,7 @@ addBtn.addEventListener("click", () => {
   printDate(newCard);
   container.appendChild(newCard);
 });
+
 searchInput.addEventListener("input", (event) => {
   const term = event.target.value.toLowerCase(); // Get the search term
   const cards = document.querySelectorAll(".card"); // Select all cards
@@ -156,9 +155,11 @@ searchInput.addEventListener("input", (event) => {
   });
 });
 
+//the listener for add board button
+
 addBoard.addEventListener('click',()=>{
   count++;
-  const boardId = `board-${count}`;
+  const boardId = `board ${count}`;
   activeBoard = boardId;
   const newBoard = {
     id: boardId,
@@ -167,53 +168,36 @@ addBoard.addEventListener('click',()=>{
   };
   boards.push(newBoard);
 
-  let content = document.createElement('li');
-  content.className = "BoardList";
-  // content.id= `board-${count}`;
-
-  let span = document.createElement('span');
-  // span.className = 'BoardList';
-  span.id = boardId;
-  span.textContent = `Board ${count}`;
-  content.appendChild(span);
-
-  content.addEventListener('click', (e) => {
-    // content.classList.add('active');
-    e.preventDefault();
-    switchBoard(boardId);
+  const boardElement = document.createElement("li");
+  boardElement.classList.add("BoardList");
+  boardElement.innerHTML = `<span>${boardId}</span>`;
+  boardElement.addEventListener('click', () => {
+    setActiveBoard(boardId, boardElement);
   });
 
-  boardContainer.appendChild(content);
-  switchBoard(boardId);
+  boardContainer.appendChild(boardElement);
 
+  // if it new board set it as active board
+  setActiveBoard(boardId, boardElement);
 });
 
-const switchBoard = (boardId) => {
-  const board = boards.find(b => b.id === boardId);
+function setActiveBoard(boardId, boardElement) {
+  activeBoard = boardId;
 
-  if (board) {
-    board.active = true;
-    container.innerHTML = '';  
-    // console.log(board);
-    // console.log(boards);
-    
-    
-    board.cards.forEach(card => {
+  // To remove the active class from all the board
+  document.querySelectorAll('.BoardList span').forEach(span => {
+    span.classList.remove('active');
+  });
+
+  // to change the background color of the active board 
+  boardElement.querySelector('span').classList.add('active');
+
+  //this clear the container and then add the card for the selected board  
+  container.innerHTML = '';
+  const activeBoardObj = boards.find(board => board.id === boardId);
+  if (activeBoardObj) {
+    activeBoardObj.cards.forEach(card => {
       container.appendChild(card);
     });
-    boards.forEach(b => {
-      if (b.id !== boardId) {
-        b.active = false;
-        let newId = document.getElementById(`${b.id}`)
-        newId.classList.remove('active');
-      }
-      
-    });
-    const boardIds = document.getElementById(`${boardId}`)
-    // console.log(boardIds);
-    
-    boardIds.classList.add('active');
-    // boardIds.style.backgroundColor = 'red' ;
-    // console.log(`Switched to board: ${boardId}`);
   }
-};
+}
