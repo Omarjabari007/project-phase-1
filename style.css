@@ -271,3 +271,68 @@ nav ul li span {
   color: blue;
 
 }
+
+
+/* mid tablets responsive & phones responsive */
+@media (max-width: 768px) {
+  .right {
+    width: 70%;
+  }
+  .nav .UnOrderdBoardList {
+    flex-direction: row;
+    margin-top: 5px;
+    flex-wrap: wrap;
+  }
+  .card {
+    width: 75%;
+    margin-bottom: 15px;
+  }
+  .btns {
+    flex-direction: column;
+    align-items: center;
+  }
+  .container {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .header {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+}
+/* large tablets responsive */
+@media (min-width: 800px) {
+  .right {
+    width:90%;
+    height: 200%; 
+  }
+  
+  .nav .UnOrderdBoardList {
+    flex-direction: row; 
+    margin-top: 15px; 
+    flex-wrap: wrap;
+  }
+
+  .card {
+    width: 60%; 
+    margin-bottom: 20px; 
+  }
+
+  .btns {
+    flex-direction: row;
+    justify-content: space-between; 
+    width: 100%; 
+  }
+
+  .container {
+    flex-wrap: wrap; 
+    justify-content: flex-start; 
+  }
+
+  .header {
+    flex-direction: row; 
+    height: 70px; 
+    padding: 20px; 
+  }
+}
