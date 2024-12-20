@@ -1,29 +1,25 @@
 const container = document.querySelector(".container");
 const addBtn = document.getElementById("addBtn");
 const searchInput = document.getElementById("search");
-const addBoard = document.getElementById('newBoard');
-const boardContainer = document.getElementById('addBoard');
+const addBoard = document.getElementById("newBoard");
+const boardContainer = document.getElementById("addBoard");
 let count = 0;
 let activeBoard = null;
 const boards = [];
 
-// Event Delegation for Card Actions
 container.addEventListener("click", (event) => {
   const target = event.target;
-
-  // Change Card Color
+  // Card color change.
   if (target.classList.contains("color")) {
     changeCardColor(target);
   }
 
-  // Delete Card
+  // ..Delete Card
   if (target.classList.contains("deleteBtn")) {
     deleteCard(target);
-    console.log(target);
-    
   }
 
-  // Edit Card
+  // ..Edit Card
   if (target.closest(".editBtn")) {
     editCard(target.closest(".editBtn"));
   }
@@ -48,11 +44,8 @@ function deleteCard(deleteButton) {
   const board = boards.find(b => b.id === activeBoard);
   if (board) {
     const cardIndex = board.cards.findIndex(card => card === cardToDelete);
-    console.log(cardToDelete);
-    
     if (cardIndex !== -1) {
       board.cards.splice(cardIndex, 1);
-    
     }
   }
   cardToDelete.remove();
@@ -100,12 +93,45 @@ function printDate(cardElement) {
   cardElement.appendChild(dateElement);
 }
 
+// To Make Cards Draggable (for existing cards)
+function makeCardDraggable(card) {
+  let startX = 0,
+    startY = 0,
+    offsetX = 0,
+    offsetY = 0;
+
+  card.addEventListener("mousedown", (e) => {
+    startX = e.clientX;
+    startY = e.clientY;
+
+    const mouseMoveHandler = (e) => {
+      offsetX = e.clientX - startX;
+      offsetY = e.clientY - startY;
+      startX = e.clientX;
+      startY = e.clientY;
+
+      card.style.position = "absolute";
+      card.style.top = `${card.offsetTop + offsetY}px`;
+      card.style.left = `${card.offsetLeft + offsetX}px`;
+    };
+
+    const mouseUpHandler = () => {
+      document.removeEventListener("mousemove", mouseMoveHandler);
+      document.removeEventListener("mouseup", mouseUpHandler);
+    };
+
+    document.addEventListener("mousemove", mouseMoveHandler);
+    document.addEventListener("mouseup", mouseUpHandler);
+  });
+}
+
 // Add date to all cards
 document.querySelectorAll(".card").forEach((card) => {
   printDate(card);
+  makeCardDraggable(card); // Make existing cards draggable ..
 });
 
-//Adding the Button for cards
+// Adding the Button for cards
 addBtn.addEventListener("click", () => {
   if (!activeBoard) {
     alert("Please select a board first.");
@@ -130,16 +156,32 @@ addBtn.addEventListener("click", () => {
           <button class="deleteBtn">Delete</button>
         </div>
   `;
-  newCard.classList.add("newCard");
-  // newCard.style.left='100px';
-  const activeBoardObj = boards.find(board => board.id === activeBoard);
-  activeBoardObj.cards.push(newCard);
+  const nav = document.querySelector(".nav"); //create random locations for cards under nav
+  const navHeight = nav ? nav.offsetHeight : 0;
+
+  const containerWidth = container.offsetWidth;
+  const containerHeight = container.offsetHeight;
+  const cardWidth = 300; 
+  const cardHeight = 200; 
+
+  const randomLeft = Math.random() * (containerWidth - cardWidth);
+  const randomTop = Math.random() * (containerHeight - navHeight - cardHeight+240); 
+
+  newCard.style.position = "absolute";
+  newCard.style.left = `${randomLeft}px`;
+  newCard.style.top = `${randomTop}px`;
+
   
+  const activeBoardObj = boards.find((board) => board.id === activeBoard);
+  activeBoardObj.cards.push(newCard);
 
   printDate(newCard);
+  makeCardDraggable(newCard); 
+  // Make the new card draggable ..
   container.appendChild(newCard);
 });
 
+// Search functionality
 searchInput.addEventListener("input", (event) => {
   const term = event.target.value.toLowerCase(); // Get the search term
   const cards = document.querySelectorAll(".card"); // Select all cards
@@ -155,48 +197,47 @@ searchInput.addEventListener("input", (event) => {
   });
 });
 
-//the listener for add board button
-
-addBoard.addEventListener('click',()=>{
+// Listener for Add Board Button
+addBoard.addEventListener("click", () => {
   count++;
   const boardId = `board ${count}`;
   activeBoard = boardId;
   const newBoard = {
     id: boardId,
     active: false,
-    cards: [] 
+    cards: [],
   };
   boards.push(newBoard);
 
   const boardElement = document.createElement("li");
   boardElement.classList.add("BoardList");
   boardElement.innerHTML = `<span>${boardId}</span>`;
-  boardElement.addEventListener('click', () => {
+  boardElement.addEventListener("click", () => {
     setActiveBoard(boardId, boardElement);
   });
 
   boardContainer.appendChild(boardElement);
 
-  // if it new board set it as active board
+  // If it's a new board, set it as active
   setActiveBoard(boardId, boardElement);
 });
 
 function setActiveBoard(boardId, boardElement) {
   activeBoard = boardId;
 
-  // To remove the active class from all the board
-  document.querySelectorAll('.BoardList span').forEach(span => {
-    span.classList.remove('active');
+  // Remove the active class from all boards
+  document.querySelectorAll(".BoardList span").forEach((span) => {
+    span.classList.remove("active");
   });
 
-  // to change the background color of the active board 
-  boardElement.querySelector('span').classList.add('active');
+  // Highlight the active board
+  boardElement.querySelector("span").classList.add("active");
 
-  //this clear the container and then add the card for the selected board  
-  container.innerHTML = '';
-  const activeBoardObj = boards.find(board => board.id === boardId);
+  // Clear the container and add cards for the selected board
+  container.innerHTML = "";
+  const activeBoardObj = boards.find((board) => board.id === boardId);
   if (activeBoardObj) {
-    activeBoardObj.cards.forEach(card => {
+    activeBoardObj.cards.forEach((card) => {
       container.appendChild(card);
     });
   }
