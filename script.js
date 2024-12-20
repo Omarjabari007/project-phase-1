@@ -3,7 +3,7 @@ const addBtn = document.getElementById("addBtn");
 const searchInput = document.getElementById("search");
 const addBoard = document.getElementById("newBoard");
 const boardContainer = document.getElementById("addBoard");
-let count = 0;
+let count = JSON.parse(localStorage.getItem("count")) || 0;
 let activeBoard = null;
 const boards = [];
 
@@ -49,6 +49,7 @@ function deleteCard(deleteButton) {
     }
   }
   cardToDelete.remove();
+  saveToLocalStorage();
 }
 
 // Function to Edit Card
@@ -66,6 +67,7 @@ function editCard(editButton) {
 
   saveButton.addEventListener("click", () => {
     saveEditedContent(card, textarea, textContent, saveButton);
+    saveToLocalStorage();
   });
 }
 
@@ -122,6 +124,7 @@ function makeCardDraggable(card) {
 
     document.addEventListener("mousemove", mouseMoveHandler);
     document.addEventListener("mouseup", mouseUpHandler);
+    saveToLocalStorage();
   });
 }
 
@@ -179,6 +182,7 @@ addBtn.addEventListener("click", () => {
   makeCardDraggable(newCard); 
   // Make the new card draggable ..
   container.appendChild(newCard);
+  saveToLocalStorage();
 });
 
 // Search functionality
@@ -200,6 +204,7 @@ searchInput.addEventListener("input", (event) => {
 // Listener for Add Board Button
 addBoard.addEventListener("click", () => {
   count++;
+  localStorage.setItem("count", JSON.stringify(count));
   const boardId = `board ${count}`;
   activeBoard = boardId;
   const newBoard = {
@@ -220,6 +225,7 @@ addBoard.addEventListener("click", () => {
 
   // If it's a new board, set it as active
   setActiveBoard(boardId, boardElement);
+  saveToLocalStorage();
 });
 
 function setActiveBoard(boardId, boardElement) {
@@ -232,7 +238,6 @@ function setActiveBoard(boardId, boardElement) {
 
   // Highlight the active board
   boardElement.querySelector("span").classList.add("active");
-
   // Clear the container and add cards for the selected board
   container.innerHTML = "";
   const activeBoardObj = boards.find((board) => board.id === boardId);
@@ -241,4 +246,102 @@ function setActiveBoard(boardId, boardElement) {
       container.appendChild(card);
     });
   }
+  saveToLocalStorage();
 }
+
+//this function save the state of the program to local storage 
+const  saveToLocalStorage = ()=> {
+  const boardsData = boards.map((board) => ({
+    id: board.id,
+    active: board.id === activeBoard,
+    cards: board.cards.map((card) => ({
+      content: card.querySelector(".text-content").textContent.trim(),
+      color: card.style.backgroundColor,
+      position: { left: card.style.left, top: card.style.top },
+      dateAdded: card.querySelector(".date").textContent,
+    })),
+  }));
+  localStorage.setItem("boards", JSON.stringify(boardsData));
+}
+
+//this function is to load the program from local storage 
+const  loadFromLocalStorage = ()=> {
+  const storedBoards = JSON.parse(localStorage.getItem("boards"));
+  if (storedBoards) {
+    storedBoards.forEach((storedBoard) => {
+      const board = { id: storedBoard.id, 
+        active:storedBoard.active,
+        cards: [] };
+      boards.push(board);
+
+      const boardElement = createBoardElement(storedBoard);
+      boardContainer.appendChild(boardElement);
+
+      if (storedBoard.active) {
+        setActiveBoard(storedBoard.id, boardElement);
+      }
+
+      storedBoard.cards.forEach((cardData) => {
+        const card = createCardElement(cardData);
+        board.cards.push(card);
+        // container.appendChild(card);
+        makeCardDraggable(card);
+      });
+    });
+  }
+  container.innerHTML = "";
+  const activeBoardObj = boards.find((board) => board.id === activeBoard);
+  if (activeBoardObj) {
+    activeBoardObj.cards.forEach((card) => {
+      container.appendChild(card);
+    });
+}
+}
+// to create the board instead of using this above 
+function createBoardElement(board) {
+  const boardElement = document.createElement("li");
+  boardElement.classList.add("BoardList");
+  boardElement.innerHTML = `<span>${board.id}</span>`;
+  boardElement.addEventListener("click", () => {
+    setActiveBoard(board.id, boardElement);
+  });
+  return boardElement;
+}
+
+// and this create the card when loadign from local storage 
+function createCardElement(cardData) {
+  const card = document.createElement("div");
+  card.classList.add("card");
+  card.style.position = "absolute";
+  card.style.left = cardData.position.left;
+  card.style.top = cardData.position.top;
+  card.style.backgroundColor = cardData.color;
+
+  card.innerHTML = `
+    <p class="text-content">${cardData.content}</p>
+    <ul class="colors">
+      <li class="color red" data-color="#FBCEB1"></li>
+      <li class="color green" data-color="#ACE1AF"></li>
+      <li class="color yellow" data-color="#c5c800"></li>
+      <li class="color blue" data-color="#7CB9E8"></li>
+      <li class="color orangered" data-color="#FFB000"></li>
+    </ul>
+    <div class="edBtns">
+      <button class="editBtn">Edit</button>
+      <button class="deleteBtn">Delete</button>
+    </div>
+  `;
+
+  const dateElement = document.createElement("p");
+  dateElement.classList.add("date");
+  dateElement.textContent = cardData.dateAdded || `Date added: ${new Date().toLocaleString()}`;
+  card.appendChild(dateElement);
+
+  return card;
+}
+
+
+//this when loading the page to load it from local storage 
+document.addEventListener("DOMContentLoaded", () => {
+  loadFromLocalStorage();
+});
