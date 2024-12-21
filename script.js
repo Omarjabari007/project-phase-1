@@ -255,7 +255,7 @@ const  saveToLocalStorage = ()=> {
     id: board.id,
     active: board.id === activeBoard,
     cards: board.cards.map((card) => ({
-      content: card.querySelector(".text-content").textContent.trim(),
+      content: card.querySelector(".text-content") ? card.querySelector(".text-content").textContent.trim(): "",
       color: card.style.backgroundColor,
       position: { left: card.style.left, top: card.style.top },
       dateAdded: card.querySelector(".date").textContent,
