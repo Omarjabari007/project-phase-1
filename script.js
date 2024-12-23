@@ -6,6 +6,19 @@ const boardContainer = document.getElementById("addBoard");
 let count = JSON.parse(localStorage.getItem("count")) || 0;
 let activeBoard = null;
 const boards = [];
+const modal = document.querySelector(".model");
+const overlay = document.querySelector(".overLay");
+const okButton = document.querySelector(".agreement");
+// Overlay
+window.addEventListener("load", () => {
+  modal.classList.remove("hidden");
+  overlay.classList.remove("hidden");
+});
+function closeModal() {
+  modal.classList.add("hidden");
+  overlay.classList.add("hidden");
+}
+okButton.addEventListener("click", closeModal);
 
 container.addEventListener("click", (event) => {
   const target = event.target;
@@ -41,9 +54,9 @@ function deleteCard(deleteButton) {
     alert("Card not found for deletion");
     return;
   }
-  const board = boards.find(b => b.id === activeBoard);
+  const board = boards.find((b) => b.id === activeBoard);
   if (board) {
-    const cardIndex = board.cards.findIndex(card => card === cardToDelete);
+    const cardIndex = board.cards.findIndex((card) => card === cardToDelete);
     if (cardIndex !== -1) {
       board.cards.splice(cardIndex, 1);
     }
@@ -164,22 +177,22 @@ addBtn.addEventListener("click", () => {
 
   const containerWidth = container.offsetWidth;
   const containerHeight = container.offsetHeight;
-  const cardWidth = 300; 
-  const cardHeight = 200; 
+  const cardWidth = 300;
+  const cardHeight = 200;
 
   const randomLeft = Math.random() * (containerWidth - cardWidth);
-  const randomTop = Math.random() * (containerHeight - navHeight - cardHeight+240); 
+  const randomTop =
+    Math.random() * (containerHeight - navHeight - cardHeight + 240);
 
   newCard.style.position = "absolute";
   newCard.style.left = `${randomLeft}px`;
   newCard.style.top = `${randomTop}px`;
 
-  
   const activeBoardObj = boards.find((board) => board.id === activeBoard);
   activeBoardObj.cards.push(newCard);
 
   printDate(newCard);
-  makeCardDraggable(newCard); 
+  makeCardDraggable(newCard);
   // Make the new card draggable ..
   container.appendChild(newCard);
   saveToLocalStorage();
@@ -249,29 +262,33 @@ function setActiveBoard(boardId, boardElement) {
   saveToLocalStorage();
 }
 
-//this function save the state of the program to local storage 
-const  saveToLocalStorage = ()=> {
+//this function save the state of the program to local storage
+const saveToLocalStorage = () => {
   const boardsData = boards.map((board) => ({
     id: board.id,
     active: board.id === activeBoard,
     cards: board.cards.map((card) => ({
-      content: card.querySelector(".text-content") ? card.querySelector(".text-content").textContent.trim(): "",
+      content: card.querySelector(".text-content")
+        ? card.querySelector(".text-content").textContent.trim()
+        : "",
       color: card.style.backgroundColor,
       position: { left: card.style.left, top: card.style.top },
       dateAdded: card.querySelector(".date").textContent,
     })),
   }));
   localStorage.setItem("boards", JSON.stringify(boardsData));
-}
+};
 
-//this function is to load the program from local storage 
-const  loadFromLocalStorage = ()=> {
+//this function is to load the program from local storage
+const loadFromLocalStorage = () => {
   const storedBoards = JSON.parse(localStorage.getItem("boards"));
   if (storedBoards) {
     storedBoards.forEach((storedBoard) => {
-      const board = { id: storedBoard.id, 
-        active:storedBoard.active,
-        cards: [] };
+      const board = {
+        id: storedBoard.id,
+        active: storedBoard.active,
+        cards: [],
+      };
       boards.push(board);
 
       const boardElement = createBoardElement(storedBoard);
@@ -295,9 +312,9 @@ const  loadFromLocalStorage = ()=> {
     activeBoardObj.cards.forEach((card) => {
       container.appendChild(card);
     });
-}
-}
-// to create the board instead of using this above 
+  }
+};
+// to create the board instead of using this above
 function createBoardElement(board) {
   const boardElement = document.createElement("li");
   boardElement.classList.add("BoardList");
@@ -308,7 +325,7 @@ function createBoardElement(board) {
   return boardElement;
 }
 
-// and this create the card when loadign from local storage 
+// and this create the card when loadign from local storage
 function createCardElement(cardData) {
   const card = document.createElement("div");
   card.classList.add("card");
@@ -334,14 +351,14 @@ function createCardElement(cardData) {
 
   const dateElement = document.createElement("p");
   dateElement.classList.add("date");
-  dateElement.textContent = cardData.dateAdded || `Date added: ${new Date().toLocaleString()}`;
+  dateElement.textContent =
+    cardData.dateAdded || `Date added: ${new Date().toLocaleString()}`;
   card.appendChild(dateElement);
 
   return card;
 }
 
-
-//this when loading the page to load it from local storage 
+//this when loading the page to load it from local storage
 document.addEventListener("DOMContentLoaded", () => {
   loadFromLocalStorage();
 });

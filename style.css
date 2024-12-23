@@ -106,16 +106,16 @@ nav ul li span {
 }
 
 .card {
-  width: 300px; 
+  width: 300px;
   max-height: 400px;
-  flex-basis: 300px; 
+  flex-basis: 300px;
   border: 2px solid #ddd;
   border-radius: 20px;
   padding: 20px;
   background-color: #d5cccc;
   box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s, box-shadow 0.3s;
-  position: absolute; 
+  position: absolute;
   top: 0;
   left: 0;
 }
@@ -266,14 +266,12 @@ nav ul li span {
   margin-bottom: 20px;
 }
 
-.active{
+.active {
   background-color: #d2d2d2;
   font-weight: bold;
   cursor: pointer;
   color: blue;
-
 }
-
 
 /* mid tablets responsive & phones responsive */
 @media (max-width: 768px) {
@@ -328,4 +326,61 @@ nav ul li span {
     height: 70px;
     padding: 20px;
   }
+}
+.hidden {
+  display: none;
+}
+
+/* model */
+.model {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: linear-gradient(135deg, #ffffff, #f0f0f0);
+  padding: 30px;
+  width: 90%;
+  max-width: 400px;
+  border-radius: 15px;
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  font-family: "Arial", sans-serif;
+  z-index: 20;
+}
+
+.model p {
+  font-size: 18px;
+  color: #333;
+  margin-bottom: 20px;
+  line-height: 1.6;
+}
+
+.model .agreement {
+  display: inline-block;
+  padding: 12px 24px;
+  background: green;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.model .agreement:hover {
+  background: linear-gradient(45deg, #0056b3, #004080);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.overLay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 10;
 }
