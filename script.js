@@ -9,6 +9,9 @@ const boards = [];
 const modal = document.querySelector(".model");
 const overlay = document.querySelector(".overLay");
 const okButton = document.querySelector(".agreement");
+const archiveBtn = document.querySelector(".Archived");
+const archive = JSON.parse(localStorage.getItem("archive")) || [];
+
 // Overlay
 window.addEventListener("load", () => {
   modal.classList.remove("hidden");
@@ -22,6 +25,7 @@ okButton.addEventListener("click", closeModal);
 
 container.addEventListener("click", (event) => {
   const target = event.target;
+
   // Card color change.
   if (target.classList.contains("color")) {
     changeCardColor(target);
@@ -29,6 +33,7 @@ container.addEventListener("click", (event) => {
 
   // ..Delete Card
   if (target.classList.contains("deleteBtn")) {
+    archiveCard(target);
     deleteCard(target);
   }
 
@@ -232,6 +237,8 @@ addBoard.addEventListener("click", () => {
   boardElement.innerHTML = `<span>${boardId}</span>`;
   boardElement.addEventListener("click", () => {
     setActiveBoard(boardId, boardElement);
+    archiveBtn.classList.add('archiveBtn');
+    archiveBtn.classList.remove('activeArchieved');createBoardElement
   });
 
   boardContainer.appendChild(boardElement);
@@ -320,6 +327,8 @@ function createBoardElement(board) {
   boardElement.classList.add("BoardList");
   boardElement.innerHTML = `<span>${board.id}</span>`;
   boardElement.addEventListener("click", () => {
+    archiveBtn.classList.add('archiveBtn');
+    archiveBtn.classList.remove('activeArchieved');
     setActiveBoard(board.id, boardElement);
   });
   return boardElement;
@@ -361,4 +370,59 @@ function createCardElement(cardData) {
 //this when loading the page to load it from local storage
 document.addEventListener("DOMContentLoaded", () => {
   loadFromLocalStorage();
+});
+
+archiveBtn.addEventListener("click", () => {
+  displayArchivedCards();
+});
+
+// Archive Card Function
+const  archiveCard = (deleteButton) =>{
+  const cardToDelete = deleteButton.closest(".card");
+  if (!cardToDelete) {
+    alert("Card not found for deletion");
+    return;
+  }
+  const cardData = {
+    content: cardToDelete.querySelector(".text-content").textContent.trim(),
+    color: cardToDelete.style.backgroundColor,
+    position: {
+      left: cardToDelete.style.left,
+      top: cardToDelete.style.top,
+    },
+    dateAdded: cardToDelete.querySelector(".date").textContent,
+  };
+
+  // Add the card data to the archive array
+  archive.push(cardData);
+
+  // Save the archive array to local storage
+  localStorage.setItem("archive", JSON.stringify(archive));
+
+  saveToLocalStorage();
+}
+
+
+function displayArchivedCards() {
+  container.innerHTML = ""; 
+  const storedArchive = JSON.parse(localStorage.getItem("archive")) || [];
+  storedArchive.forEach((cardData) => {
+    const card = createCardElement(cardData); // Reuse the createCardElement function
+    card.style.opacity = "0.9"; 
+    card.style.background='#FFF59D';
+    container.appendChild(card);
+    makeCardDraggable(card); // Make it draggable
+  });
+}
+
+// Event Listener for Archive Button
+archiveBtn.addEventListener("click", () => {
+  console.log("clicked");
+  archiveBtn.classList.remove('archiveBtn');
+  archiveBtn.classList.add('activeArchieved');
+  displayArchivedCards();
+  activeBoard = null;
+  document.querySelectorAll(".BoardList span").forEach((span) => {
+    span.classList.remove("active");
+  });
 });
