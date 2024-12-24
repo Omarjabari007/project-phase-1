@@ -327,8 +327,7 @@ function createBoardElement(board) {
   boardElement.classList.add("BoardList");
   boardElement.innerHTML = `<span>${board.id}</span>`;
   boardElement.addEventListener("click", () => {
-    archiveBtn.classList.add('archiveBtn');
-    archiveBtn.classList.remove('activeArchieved');
+    
     setActiveBoard(board.id, boardElement);
   });
   return boardElement;

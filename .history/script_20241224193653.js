@@ -9,9 +9,6 @@ const boards = [];
 const modal = document.querySelector(".model");
 const overlay = document.querySelector(".overLay");
 const okButton = document.querySelector(".agreement");
-const archiveBtn = document.querySelector(".Archived");
-const archive = JSON.parse(localStorage.getItem("archive")) || [];
-
 // Overlay
 window.addEventListener("load", () => {
   modal.classList.remove("hidden");
@@ -25,7 +22,6 @@ okButton.addEventListener("click", closeModal);
 
 container.addEventListener("click", (event) => {
   const target = event.target;
-
   // Card color change.
   if (target.classList.contains("color")) {
     changeCardColor(target);
@@ -33,7 +29,6 @@ container.addEventListener("click", (event) => {
 
   // ..Delete Card
   if (target.classList.contains("deleteBtn")) {
-    archiveCard(target);
     deleteCard(target);
   }
 
@@ -237,8 +232,6 @@ addBoard.addEventListener("click", () => {
   boardElement.innerHTML = `<span>${boardId}</span>`;
   boardElement.addEventListener("click", () => {
     setActiveBoard(boardId, boardElement);
-    archiveBtn.classList.add('archiveBtn');
-    archiveBtn.classList.remove('activeArchieved');createBoardElement
   });
 
   boardContainer.appendChild(boardElement);
@@ -327,8 +320,6 @@ function createBoardElement(board) {
   boardElement.classList.add("BoardList");
   boardElement.innerHTML = `<span>${board.id}</span>`;
   boardElement.addEventListener("click", () => {
-    archiveBtn.classList.add('archiveBtn');
-    archiveBtn.classList.remove('activeArchieved');
     setActiveBoard(board.id, boardElement);
   });
   return boardElement;

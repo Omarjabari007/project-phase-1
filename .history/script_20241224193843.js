@@ -237,8 +237,7 @@ addBoard.addEventListener("click", () => {
   boardElement.innerHTML = `<span>${boardId}</span>`;
   boardElement.addEventListener("click", () => {
     setActiveBoard(boardId, boardElement);
-    archiveBtn.classList.add('archiveBtn');
-    archiveBtn.classList.remove('activeArchieved');createBoardElement
+    
   });
 
   boardContainer.appendChild(boardElement);
@@ -327,8 +326,6 @@ function createBoardElement(board) {
   boardElement.classList.add("BoardList");
   boardElement.innerHTML = `<span>${board.id}</span>`;
   boardElement.addEventListener("click", () => {
-    archiveBtn.classList.add('archiveBtn');
-    archiveBtn.classList.remove('activeArchieved');
     setActiveBoard(board.id, boardElement);
   });
   return boardElement;

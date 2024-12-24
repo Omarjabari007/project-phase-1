@@ -384,13 +384,4 @@ nav ul li span {
   background: rgba(0, 0, 0, 0.5);
   z-index: 10;
 }
-.activeArchieved {
-  background-color: #e43232;
-  color: wheat;
-  height: 60%;
-  margin: 10px;
-  width: 80%;
-  border: white;
-  border-radius: 15px;
-  cursor: pointer;
-}
+
