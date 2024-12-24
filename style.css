@@ -276,7 +276,9 @@ nav ul li span {
 /* mid tablets responsive & phones responsive */
 @media (max-width: 768px) {
   .right {
-    width: 70%;
+    width: 50%;
+    height: 100%;
+
   }
   .nav .UnOrderdBoardList {
     flex-direction: row;
