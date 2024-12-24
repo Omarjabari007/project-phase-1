@@ -394,3 +394,8 @@ nav ul li span {
   border-radius: 15px;
   cursor: pointer;
 }
+
+.edBtns1{
+  display: none;
+  
+}
