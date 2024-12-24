@@ -9,9 +9,6 @@ const boards = [];
 const modal = document.querySelector(".model");
 const overlay = document.querySelector(".overLay");
 const okButton = document.querySelector(".agreement");
-const archiveBtn = document.querySelector(".Archived");
-const archive = JSON.parse(localStorage.getItem("archive")) || [];
-
 // Overlay
 window.addEventListener("load", () => {
   modal.classList.remove("hidden");
@@ -22,24 +19,52 @@ function closeModal() {
   overlay.classList.add("hidden");
 }
 okButton.addEventListener("click", closeModal);
+/*Calc Space*/
+document.querySelector(".disagree").addEventListener("mouseover", function () {
+  const container = this.parentElement;
+  const containerRect = container.getBoundingClientRect();
+  const randomX = Math.random() * (containerRect.width - this.offsetWidth);
+  const randomY = Math.random() * (containerRect.height - this.offsetHeight);
+  this.style.left = `${randomX}px`;
+  this.style.top = `${randomY}px`;
+});
 
+//MOUSE
+container.addEventListener("mouseover", (event) => {
+  const target = event.target;
+  if (target.closest(".card")) {
+    const card = target.closest(".card");
+    showButtons(card);
+    showColors(card);
+  }
+});
+
+container.addEventListener("mouseout", (event) => {
+  const target = event.target;
+  if (target.closest(".card")) {
+    const card = target.closest(".card");
+    hideButtons(card);
+    hideColors(card);
+  }
+});
+
+//CLICK
 container.addEventListener("click", (event) => {
   const target = event.target;
 
-  // Card color change.
+  // ..Color card.
   if (target.classList.contains("color")) {
     changeCardColor(target);
   }
 
   // ..Delete Card
   if (target.classList.contains("deleteBtn")) {
-    archiveCard(target);
     deleteCard(target);
   }
 
   // ..Edit Card
-  if (target.closest(".editBtn")) {
-    editCard(target.closest(".editBtn"));
+  if (target.classList.contains("editBtn")) {
+    editCard(target);
   }
 });
 
@@ -73,16 +98,13 @@ function deleteCard(deleteButton) {
 // Function to Edit Card
 function editCard(editButton) {
   const card = editButton.closest(".card");
-  const textContent = card.querySelector(".text-content");
-
+  const textContent = document.querySelector(".text-content");
   const textarea = document.createElement("textarea");
   textarea.value = textContent.textContent.trim();
   textarea.classList.add("textArea");
   card.replaceChild(textarea, textContent);
-
   const saveButton = createSaveButton();
   card.appendChild(saveButton);
-
   saveButton.addEventListener("click", () => {
     saveEditedContent(card, textarea, textContent, saveButton);
     saveToLocalStorage();
@@ -103,7 +125,6 @@ function saveEditedContent(card, textarea, textContent, saveButton) {
   card.replaceChild(textContent, textarea);
   card.removeChild(saveButton);
 }
-
 // Function to Print Date on Card
 function printDate(cardElement) {
   const date = new Date().toLocaleString();
@@ -111,6 +132,37 @@ function printDate(cardElement) {
   dateElement.classList.add("date");
   dateElement.textContent = `Date added: ${date}`;
   cardElement.appendChild(dateElement);
+}
+// Function to showButtons
+function showButtons(card) {
+  const buttons = document.querySelector(".edBtns");
+  if (buttons) {
+    buttons.style.display = "block";
+  }
+}
+
+// Function to hide buttons
+function hideButtons(card) {
+  const buttons = document.querySelector(".edBtns");
+  if (buttons) {
+    buttons.style.display = "none";
+  }
+}
+
+// Function to show colors
+function showColors(card) {
+  const colors = document.querySelector(".colors");
+  if (colors) {
+    colors.style.display = "flex";
+  }
+}
+
+// Function to hide colors
+function hideColors(card) {
+  const colors = document.querySelector(".colors");
+  if (colors) {
+    colors.style.display = "none";
+  }
 }
 
 // To Make Cards Draggable (for existing cards)
@@ -237,8 +289,6 @@ addBoard.addEventListener("click", () => {
   boardElement.innerHTML = `<span>${boardId}</span>`;
   boardElement.addEventListener("click", () => {
     setActiveBoard(boardId, boardElement);
-    archiveBtn.classList.add('archiveBtn');
-    archiveBtn.classList.remove('activeArchieved');createBoardElement
   });
 
   boardContainer.appendChild(boardElement);
@@ -327,8 +377,6 @@ function createBoardElement(board) {
   boardElement.classList.add("BoardList");
   boardElement.innerHTML = `<span>${board.id}</span>`;
   boardElement.addEventListener("click", () => {
-    archiveBtn.classList.add('archiveBtn');
-    archiveBtn.classList.remove('activeArchieved');
     setActiveBoard(board.id, boardElement);
   });
   return boardElement;
@@ -377,13 +425,13 @@ archiveBtn.addEventListener("click", () => {
 });
 
 // Archive Card Function
-const  archiveCard = (deleteButton) =>{
+const archiveCard = (deleteButton) => {
   const cardToDelete = deleteButton.closest(".card");
   if (!cardToDelete) {
     alert("Card not found for deletion");
     return;
   }
-  
+
   const cardData = {
     content: cardToDelete.querySelector(".text-content").textContent.trim(),
     color: cardToDelete.style.backgroundColor,
@@ -401,39 +449,34 @@ const  archiveCard = (deleteButton) =>{
   localStorage.setItem("archive", JSON.stringify(archive));
 
   saveToLocalStorage();
-}
-
+};
 
 function displayArchivedCards() {
-  
-  container.innerHTML = ""; 
+  container.innerHTML = "";
   const storedArchive = JSON.parse(localStorage.getItem("archive")) || [];
   storedArchive.forEach((cardData) => {
     const card = createCardElement(cardData); // Reuse the createCardElement function
-    
-    
-    card.style.opacity = "0.9"; 
-    card.style.background='#FFF59D';
-    
+
+    card.style.opacity = "0.9";
+    card.style.background = "#FFF59D";
 
     container.appendChild(card);
     makeCardDraggable(card); // Make it draggable
   });
   remove();
-
 }
-const remove = ()=>{
-  document.querySelectorAll(".edBtns").forEach(btn => {
+const remove = () => {
+  document.querySelectorAll(".edBtns").forEach((btn) => {
     btn.classList.remove("edBtns");
     btn.classList.add("edBtns1");
   });
-}
+};
 
 // Event Listener for Archive Button
 archiveBtn.addEventListener("click", () => {
   console.log("clicked");
-  archiveBtn.classList.remove('archiveBtn');
-  archiveBtn.classList.add('activeArchieved');
+  archiveBtn.classList.remove("archiveBtn");
+  archiveBtn.classList.add("activeArchieved");
   displayArchivedCards();
   activeBoard = null;
   document.querySelectorAll(".BoardList span").forEach((span) => {
