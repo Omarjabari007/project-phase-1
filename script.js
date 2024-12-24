@@ -69,15 +69,12 @@ function deleteCard(deleteButton) {
 function editCard(editButton) {
   const card = editButton.closest(".card");
   const textContent = card.querySelector(".text-content");
-
   const textarea = document.createElement("textarea");
   textarea.value = textContent.textContent.trim();
   textarea.classList.add("textArea");
   card.replaceChild(textarea, textContent);
-
   const saveButton = createSaveButton();
   card.appendChild(saveButton);
-
   saveButton.addEventListener("click", () => {
     saveEditedContent(card, textarea, textContent, saveButton);
     saveToLocalStorage();
@@ -98,7 +95,6 @@ function saveEditedContent(card, textarea, textContent, saveButton) {
   card.replaceChild(textContent, textarea);
   card.removeChild(saveButton);
 }
-
 // Function to Print Date on Card
 function printDate(cardElement) {
   const date = new Date().toLocaleString();
