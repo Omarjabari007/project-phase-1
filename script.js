@@ -425,13 +425,13 @@ archiveBtn.addEventListener("click", () => {
 });
 
 // Archive Card Function
-const  archiveCard = (deleteButton) =>{
+const archiveCard = (deleteButton) => {
   const cardToDelete = deleteButton.closest(".card");
   if (!cardToDelete) {
     alert("Card not found for deletion");
     return;
   }
-  
+
   const cardData = {
     content: cardToDelete.querySelector(".text-content").textContent.trim(),
     color: cardToDelete.style.backgroundColor,
@@ -449,39 +449,34 @@ const  archiveCard = (deleteButton) =>{
   localStorage.setItem("archive", JSON.stringify(archive));
 
   saveToLocalStorage();
-}
-
+};
 
 function displayArchivedCards() {
-  
-  container.innerHTML = ""; 
+  container.innerHTML = "";
   const storedArchive = JSON.parse(localStorage.getItem("archive")) || [];
   storedArchive.forEach((cardData) => {
     const card = createCardElement(cardData); // Reuse the createCardElement function
-    
-    
-    card.style.opacity = "0.9"; 
-    card.style.background='#FFF59D';
-    
+
+    card.style.opacity = "0.9";
+    card.style.background = "#FFF59D";
 
     container.appendChild(card);
     makeCardDraggable(card); // Make it draggable
   });
   remove();
-
 }
-const remove = ()=>{
-  document.querySelectorAll(".edBtns").forEach(btn => {
+const remove = () => {
+  document.querySelectorAll(".edBtns").forEach((btn) => {
     btn.classList.remove("edBtns");
     btn.classList.add("edBtns1");
   });
-}
+};
 
 // Event Listener for Archive Button
 archiveBtn.addEventListener("click", () => {
   console.log("clicked");
-  archiveBtn.classList.remove('archiveBtn');
-  archiveBtn.classList.add('activeArchieved');
+  archiveBtn.classList.remove("archiveBtn");
+  archiveBtn.classList.add("activeArchieved");
   displayArchivedCards();
   activeBoard = null;
   document.querySelectorAll(".BoardList span").forEach((span) => {
