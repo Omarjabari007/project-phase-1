@@ -383,6 +383,7 @@ const  archiveCard = (deleteButton) =>{
     alert("Card not found for deletion");
     return;
   }
+  
   const cardData = {
     content: cardToDelete.querySelector(".text-content").textContent.trim(),
     color: cardToDelete.style.backgroundColor,
@@ -404,14 +405,27 @@ const  archiveCard = (deleteButton) =>{
 
 
 function displayArchivedCards() {
+  
   container.innerHTML = ""; 
   const storedArchive = JSON.parse(localStorage.getItem("archive")) || [];
   storedArchive.forEach((cardData) => {
     const card = createCardElement(cardData); // Reuse the createCardElement function
+    
+    
     card.style.opacity = "0.9"; 
     card.style.background='#FFF59D';
+    
+
     container.appendChild(card);
     makeCardDraggable(card); // Make it draggable
+  });
+  remove();
+
+}
+const remove = ()=>{
+  document.querySelectorAll(".edBtns").forEach(btn => {
+    btn.classList.remove("edBtns");
+    btn.classList.add("edBtns1");
   });
 }
 
