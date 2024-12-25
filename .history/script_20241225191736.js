@@ -61,7 +61,7 @@ container.addEventListener("click", (event) => {
 
   // ..Delete Card
   if (target.classList.contains("deleteBtn")) {
-    archiveCard(target);
+    archiveCard();
     deleteCard(target);
   }
 
@@ -200,12 +200,13 @@ function makeCardDraggable(card) {
   });
 }
 
+// Add date to all cards
 document.querySelectorAll(".card").forEach((card) => {
   printDate(card);
-  makeCardDraggable(card); 
+  makeCardDraggable(card); // Make existing cards draggable ..
 });
 
-
+// Adding the Button for cards
 addBtn.addEventListener("click", () => {
   if (!activeBoard) {
     alert("Please select a board first.");
@@ -230,7 +231,7 @@ addBtn.addEventListener("click", () => {
           <button class="deleteBtn">Delete</button>
         </div>
   `;
-  const nav = document.querySelector(".nav"); 
+  const nav = document.querySelector(".nav"); //create random locations for cards under nav
   const navHeight = nav ? nav.offsetHeight : 0;
 
   const containerWidth = container.offsetWidth;
@@ -251,15 +252,15 @@ addBtn.addEventListener("click", () => {
 
   printDate(newCard);
   makeCardDraggable(newCard);
-  
+  // Make the new card draggable ..
   container.appendChild(newCard);
   saveToLocalStorage();
 });
 
 // Search functionality
 searchInput.addEventListener("input", (event) => {
-  const term = event.target.value.toLowerCase(); 
-  const cards = document.querySelectorAll(".card"); 
+  const term = event.target.value.toLowerCase(); // Get the search term
+  const cards = document.querySelectorAll(".card"); // Select all cards
   cards.forEach((card) => {
     const cardText = card
       .querySelector(".text-content")
@@ -272,6 +273,7 @@ searchInput.addEventListener("input", (event) => {
   });
 });
 
+// Listener for Add Board Button
 addBoard.addEventListener("click", () => {
   count++;
   localStorage.setItem("count", JSON.stringify(count));
@@ -296,6 +298,7 @@ addBoard.addEventListener("click", () => {
 
   boardContainer.appendChild(boardElement);
 
+  // If it's a new board, set it as active
   setActiveBoard(boardId, boardElement);
   saveToLocalStorage();
 });
@@ -360,7 +363,7 @@ const loadFromLocalStorage = () => {
       storedBoard.cards.forEach((cardData) => {
         const card = createCardElement(cardData);
         board.cards.push(card);
-        
+        // container.appendChild(card);
         makeCardDraggable(card);
       });
     });
@@ -459,13 +462,13 @@ function displayArchivedCards() {
   container.innerHTML = "";
   const storedArchive = JSON.parse(localStorage.getItem("archive")) || [];
   storedArchive.forEach((cardData) => {
-    const card = createCardElement(cardData); 
+    const card = createCardElement(cardData); // Reuse the createCardElement function
 
     card.style.opacity = "0.9";
     card.style.background = "#FFF59D";
 
     container.appendChild(card);
-    makeCardDraggable(card); 
+    makeCardDraggable(card); // Make it draggable
   });
   remove();
 }

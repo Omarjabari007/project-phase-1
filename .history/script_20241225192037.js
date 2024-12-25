@@ -200,6 +200,7 @@ function makeCardDraggable(card) {
   });
 }
 
+// Add date to all cards
 document.querySelectorAll(".card").forEach((card) => {
   printDate(card);
   makeCardDraggable(card); 

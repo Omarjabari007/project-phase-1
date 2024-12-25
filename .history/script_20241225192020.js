@@ -200,12 +200,13 @@ function makeCardDraggable(card) {
   });
 }
 
+// Add date to all cards
 document.querySelectorAll(".card").forEach((card) => {
   printDate(card);
-  makeCardDraggable(card); 
+  makeCardDraggable(card); // Make existing cards draggable ..
 });
 
-
+// Adding the Button for cards
 addBtn.addEventListener("click", () => {
   if (!activeBoard) {
     alert("Please select a board first.");
@@ -230,7 +231,7 @@ addBtn.addEventListener("click", () => {
           <button class="deleteBtn">Delete</button>
         </div>
   `;
-  const nav = document.querySelector(".nav"); 
+  const nav = document.querySelector(".nav"); //create random locations for cards under nav
   const navHeight = nav ? nav.offsetHeight : 0;
 
   const containerWidth = container.offsetWidth;
@@ -251,7 +252,7 @@ addBtn.addEventListener("click", () => {
 
   printDate(newCard);
   makeCardDraggable(newCard);
-  
+  // Make the new card draggable ..
   container.appendChild(newCard);
   saveToLocalStorage();
 });

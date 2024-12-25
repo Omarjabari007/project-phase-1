@@ -200,12 +200,13 @@ function makeCardDraggable(card) {
   });
 }
 
+// Add date to all cards
 document.querySelectorAll(".card").forEach((card) => {
   printDate(card);
   makeCardDraggable(card); 
 });
 
-
+// Adding the Button for cards
 addBtn.addEventListener("click", () => {
   if (!activeBoard) {
     alert("Please select a board first.");
