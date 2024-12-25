@@ -100,7 +100,7 @@ function deleteCard(deleteButton) {
 // Function to Edit Card
 function editCard(editButton) {
   const card = editButton.closest(".card");
-  const textContent = document.querySelector(".text-content");
+  const textContent = card.querySelector(".text-content");
   const textarea = document.createElement("textarea");
   textarea.value = textContent.textContent.trim();
   textarea.classList.add("textArea");
