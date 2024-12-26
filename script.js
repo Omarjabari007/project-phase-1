@@ -231,8 +231,8 @@ addBtn.addEventListener("click", () => {
         </div>
   `;
   const nav = document.querySelector(".nav"); //create random locations for cards under nav
-  const navHeight = nav ? nav.offsetHeight : 0;
 
+  const navHeight = nav ? nav.offsetHeight : 0;
   const containerWidth = container.offsetWidth;
   const containerHeight = container.offsetHeight;
   const cardWidth = 300;
@@ -488,4 +488,23 @@ archiveBtn.addEventListener("click", () => {
   document.querySelectorAll(".BoardList span").forEach((span) => {
     span.classList.remove("active");
   });
+});
+
+console.log(container.offsetWidth);
+console.log(container.offsetHeight);
+document.addEventListener("DOMContentLoaded", () => {
+  const nav = document.querySelector(".nav");
+  console.log(nav.offsetHeight);
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const nav = document.querySelector(".nav");
+  const container = document.querySelector(".container");
+
+  if (nav && container) {
+    console.log(container.offsetHeight - nav.offsetHeight);
+  } else {
+    if (!nav) console.error("The .nav element is not found in the DOM.");
+    if (!container) console.error("The .container element is not found in the DOM.");
+  }
 });
